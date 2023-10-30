@@ -41,6 +41,8 @@
 #include <unistd.h>
 #endif
 
+#include <signal.h>
+
 #include "jvmti.h"
 
 /**
@@ -138,6 +140,7 @@ static void
 check_jvmti_status(JNIEnv* jni, jvmtiError err, const char* msg) {
   if (err != JVMTI_ERROR_NONE) {
     LOG("check_jvmti_status: JVMTI function returned error: %s (%d)\n", TranslateError(err), err);
+    raise(SIGABRT);
     jni->FatalError(msg);
   }
 }
